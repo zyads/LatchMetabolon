@@ -1,0 +1,97 @@
+<!-- # install.packages("glmnet")
+# install.packages("ggplot2")
+# # devtools::install_github("xia-lab/MetaboAnalystR", build = TRUE, build_vignettes = TRUE, build_manual =T)
+# install.packages("scales")
+# install.packages("pheatmap")
+# install.packages("tidyverse")
+# install.packages("reshape")
+# install.packages("magrittr")
+# install.packages("ggpubr")
+# install.packages("ggplot2")
+# install.packages("lsmeans")
+# install.packages("multcomp")
+# install.packages("ggplot2")
+# install.packages("corrplot")
+# install.packages("Hmisc")
+# BiocManager::install("ComplexHeatmap")
+# install.packages("circlize")
+
+# library(glmnet)
+# library(ggplot2)
+# #library(MetaboAnalystR) # It will take long time to install, you can comment this line 
+# library("scales")
+# library(pheatmap)
+# library(tidyverse)
+# library(reshape2)
+# library(magrittr)
+# library("ggpubr")
+# library(lsmeans)
+# library(multcomp)
+# library(corrplot)
+# library("Hmisc")
+# library(ComplexHeatmap)
+# library(circlize)
+
+
+
+# metabolomics_meta= read.csv("metabolomics_meta_R21_SOV.csv")   
+# samples_meta= read.csv("samples_meta_R21_SOV.csv",na.strings=c("NA","NaN", ""))       # samples unique ids is the sample id   
+# metabolomics_data= read.csv("metabolomics_data_R21_SOV.csv",check.names=F,row.names=1)  # metabolomics id is the comp id
+# dim(metabolomics_data)
+# dim(metabolomics_meta)
+# dim(samples_meta)
+# print("********************Metabolomics data")
+# head(metabolomics_data)
+# print("********************Metaboloites annotation")
+# head(metabolomics_meta)
+# print("********************Samples annotation")
+# head(samples_meta)
+
+# options(echo=FALSE) #do I need this?
+args <- commandArgs(trailingOnly = TRUE)
+print(args)
+
+#do the file building here, to html
+metabolomics_meta= args[1] # hve to open the file here, otherwise it will not work
+samples_meta= args[2]
+metabolomics_data = args[3]
+
+int.mat <- metabolomics_data
+rowNms <- rownames(int.mat)
+colNms <- colnames(int.mat)
+naNms <- sum(is.na(int.mat))
+num.mat <- suppressWarnings(apply(int.mat, 2, as.numeric))
+if (sum(is.na(num.mat)) > naNms) {
+    num.mat <- apply(int.mat, 2, function(x) as.numeric(gsub(",", "", x)))
+    if (sum(is.na(num.mat)) > naNms) {
+        print("Non-numeric values were found and replaced by NA.")
+    }
+    else {
+        print("All data values are numeric.")
+    }
+} 
+ -->
+
+---
+
+title: "MetaLINCS Output"
+output: html_document
+subtitle: "Created based on input data."
+author: "Maybe later"
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 2
+    theme: united
+params:
+    out1: out1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE}
+print(out1)
+```
