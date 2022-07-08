@@ -14,7 +14,7 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile) -> Latch
 
     # Define command and arguments
     command = 'Rscript'
-    path2script = '/root/wf/MetaLINCS1.rmd'
+    path2script = '/root/wf/MetaLINCS1.R'
 
     # Variable number of args in a list
     args = [meta.local_path, samples.local_path, data.local_path]
@@ -31,7 +31,7 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile) -> Latch
     
 
     #make html file a LatchFile and return it
-    return LatchFile(str(html_file), "latch:///output1.html")
+    return LatchFile(str(html_file), "latch:///MetaLINCS1.html")
     
 
     
