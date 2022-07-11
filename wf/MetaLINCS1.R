@@ -1,19 +1,23 @@
-args <- commandArgs(trailingOnly = TRUE)
-
+#PUT MY LIBRARIES HERE
 install.packages("rmarkdown")
 library(rmarkdown)
-# install.packages("knitr")
-# Load the data into MetaLINCS1.Rmd and knit the Rmd file
-# library(knitr)
-# library(rlang)
-# library(rjson)
-# library(data.table)
-# library(dplyr)
 
- # hve to open the file here, otherwise it will not work
-metabolomics_meta <- args[1]
-samples_meta <- args[2]
-metabolomics_data <- args[3]
+#Good code snippet
+dir.create("/root/results", showWarnings = FALSE)
+setwd("/root/results")
+
+#delete this but wanna see what happens
+# df <- data.frame(a=1:4, b=4:1)
+# write.table(df, file="my.csv", sep=",", row.names=FALSE, append=TRUE)
+# print(list.files('/root'))
+#end test
+
+args <- commandArgs(trailingOnly=TRUE)
+
+metabolomics_meta <- read.csv(args[1]) #I wasnt reading before...
+samples_meta <- read.csv(args[2])
+metabolomics_data <- read.csv(args[3])
+
 
 int.mat <- metabolomics_data
 rowNms <- rownames(int.mat)
@@ -30,9 +34,48 @@ if (sum(is.na(num.mat)) > naNms) {
     else {
         out1 <- ("All data values are numeric.")
     }
-} 
+}
+
 #Load args into the rmd when knitting the Rmd file.... maybe do all computation here and then send output to rmd to be knitted
+#can possibily knit image here
 rmarkdown::render("MetaLINCS1.Rmd", output_format="html_document", params=list(out1=out1))
 
-#return path of MetaLINCS1.html file
-MetaLINCS1.html
+# height=8
+# width=8
+# print("loop start")
+
+# for (gene in geneList)
+# {
+#   print(gene)
+#   print(matrix)
+
+#   gene1_plot=plotEmbedding(
+#     ArchRProj = savedArchRProject,
+#     colorBy = matrix,
+#     #continuousSet = "yellowBlue",
+#     name = args[3],
+#     embedding = "UMAP",
+#     imputeWeights = getImputeWeights(savedArchRProject))
+
+#   png(file = paste0(gene,".png"), width = width, height = height,units="in",res = 1000)
+#   print(gene1_plot)
+#   dev.off()
+# }
+
+# --------------------------------------------------------------------
+
+# install.packages("rmarkdown")
+# library(rmarkdown)
+# # install.packages("knitr")
+# # Load the data into MetaLINCS1.Rmd and knit the Rmd file
+# # library(knitr)
+# # library(rlang)
+# # library(rjson)
+# # library(data.table)
+# # library(dplyr)
+
+# #Load args into the rmd when knitting the Rmd file.... maybe do all computation here and then send output to rmd to be knitted
+# rmarkdown::render("MetaLINCS1.Rmd", output_format="html_document", params=list(out1=out1))
+
+# #return path of MetaLINCS1.html file
+# MetaLINCS1.html

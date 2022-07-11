@@ -5,12 +5,12 @@ import subprocess
 from pathlib import Path
 
 from latch import small_task, workflow
-from latch.types import LatchFile #, LatchDir
+from latch.types import LatchFile, LatchDir
 
 
 #Might be for more than preprocessing
 @small_task
-def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile) -> LatchFile:
+def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchFile: # can it be string?
 
     # Define command and arguments
     command = 'Rscript'
@@ -22,18 +22,20 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile) -> Latch
     # Build subprocess command to call rmd file with parameters
     cmd = [command, path2script] + args
 
-    x = subprocess.run(cmd, check=True)
+    subprocess.run(cmd, check=True) #no more x = ig
     
     #figure out where r markdown path is and return it.... SO IN R MUST PLACE THE RMARKDOWN FILE IN THE SAME FOLDER AS THE RSCRIPT or something like that
     #Obtain the html file location from subprocess
     # html_file = Path(x.stdout)
-    html_file = Path(x.stdout.decode('utf-8')).resolve()
+    # html_file = Path(x.stdout.decode('utf-8')).resolve()
     
 
     #make html file a LatchFile and return it
-    return LatchFile(str(html_file), "latch:///MetaLINCS1.html")
-    
+    # return LatchFile(str(html_file), "latch:///MetaLINCS1.html")
 
+    #obtain output directory from 
+    local_output_dir = Path("/root/results").resolve() #results created in R file
+    return LatchDir(str(local_output_dir), "latch:///" + output_dir) #still not sure what the 2 dirs for (local , remote)
     
 
 
@@ -60,7 +62,7 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile) -> Latch
 
 #Images not supported in Latch markdown
 @workflow
-def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile) -> LatchFile:
+def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchFile:
     """This pipeline is designed to summarize all the preprocessing and down stream analysis for the metabolomics data.
 
     MetabolonR
@@ -107,8 +109,9 @@ def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile) -> LatchFile
             __metadata__:
                 display_name: Metabolomics Data File
     """
-    return preprocessing( meta = meta, samples = samples, data = data)
+    return preprocessing( meta = meta, samples = samples, data = data, output_dir = output_dir)
 
 
+#prolly need fix this... maybe i gotta uninstall some packages?
 if __name__ == "__main__":
-    MetaLINCS( meta = LatchFile("/root/data/meta.csv", "latch:///meta.csv"), samples = LatchFile("/root/data/samples.csv", "latch:///samples.csv"), data = LatchFile("/root/data/data.csv", "latch:///data.csv"))
+    MetaLINCS( meta = LatchFile("/root/data/meta.csv", "latch:///meta.csv"), samples = LatchFile("/root/data/samples.csv", "latch:///samples.csv"), data = LatchFile("/root/data/data.csv", "latch:///data.csv"), output_dir = "results")
