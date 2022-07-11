@@ -10,7 +10,7 @@ from latch.types import LatchFile, LatchDir
 
 #Might be for more than preprocessing
 @small_task
-def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchFile: # can it be string?
+def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchDir: # can it be string?
 
     # Define command and arguments
     command = 'Rscript'
@@ -35,7 +35,12 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_d
 
     #obtain output directory from 
     local_output_dir = Path("/root/results").resolve() #results created in R file
+
+    # time.sleep(300) #wait 5 minutes
     return LatchDir(str(local_output_dir), "latch:///" + output_dir) #still not sure what the 2 dirs for (local , remote)
+
+    #for local dev
+    # return LatchDir(str(local_output_dir), output_dir)
     
 
 
@@ -62,7 +67,7 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_d
 
 #Images not supported in Latch markdown
 @workflow
-def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchFile:
+def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchDir:
     """This pipeline is designed to summarize all the preprocessing and down stream analysis for the metabolomics data.
 
     MetabolonR
@@ -115,9 +120,10 @@ def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: 
             __metadata__:
                 display_name: Output Directory
     """
+    #Call each function here for parrallelization
     return preprocessing( meta = meta, samples = samples, data = data, output_dir = output_dir)
 
 
 #prolly need fix this... maybe i gotta uninstall some packages?
 if __name__ == "__main__":
-    MetaLINCS( meta = LatchFile("/root/data/meta.csv", "latch:///meta.csv"), samples = LatchFile("/root/data/samples.csv", "latch:///samples.csv"), data = LatchFile("/root/data/data.csv", "latch:///data.csv"), output_dir = "results")
+    MetaLINCS( meta = LatchFile("/home/zyads/metalincs/data/meta.csv"), samples = LatchFile("/home/zyads/metalincs/data/samples.csv"), data = LatchFile("/home/zyads/metalincs/data/data.csv"), output_dir = "results") 

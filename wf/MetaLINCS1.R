@@ -1,5 +1,5 @@
 # Find a way to not have this happen every time maybe put in dockerfile?
-install.packages("rmarkdown")
+# install.packages("rmarkdown")
 
 #PUT MY LIBRARIES HERE
 library(rmarkdown)
@@ -40,7 +40,7 @@ if (sum(is.na(num.mat)) > naNms) {
 
 #Load args into the rmd when knitting the Rmd file.... maybe do all computation here and then send output to rmd to be knitted
 #can possibily knit image here
-rmarkdown::render("MetaLINCS1.Rmd", output_format="html_document", params=list(out1=out1))
+rmarkdown::render("/root/wf/MetaLINCS1.Rmd", output_format="html_document", params=list(out1=out1))
 
 # height=8
 # width=8
