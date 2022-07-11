@@ -1,5 +1,7 @@
-#PUT MY LIBRARIES HERE
+# Find a way to not have this happen every time maybe put in dockerfile?
 install.packages("rmarkdown")
+
+#PUT MY LIBRARIES HERE
 library(rmarkdown)
 
 #Good code snippet

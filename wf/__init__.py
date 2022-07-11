@@ -108,6 +108,12 @@ def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: 
 
             __metadata__:
                 display_name: Metabolomics Data File
+
+        output_dir:
+            Output directory for the results.
+
+            __metadata__:
+                display_name: Output Directory
     """
     return preprocessing( meta = meta, samples = samples, data = data, output_dir = output_dir)
 
