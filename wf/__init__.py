@@ -7,10 +7,12 @@ from pathlib import Path
 from latch import small_task, workflow
 from latch.types import LatchFile, LatchDir
 
+# import time
+
 
 #Might be for more than preprocessing
 @small_task
-def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchDir: # can it be string?
+def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: LatchDir) -> LatchDir: # can it be string?
 
     # Define command and arguments
     command = 'Rscript'
@@ -34,10 +36,15 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_d
     # return LatchFile(str(html_file), "latch:///MetaLINCS1.html")
 
     #obtain output directory from 
-    local_output_dir = Path("/root/results").resolve() #results created in R file
+    local_output_dir = Path("/root/wf/").resolve() #results created in R file
+
+    # local_output_dir = str(Path("/root/results").resolve())
+    remote_path=output_dir.remote_path
+    if remote_path[-1] != "/":
+        remote_path += "/"
 
     # time.sleep(300) #wait 5 minutes
-    return LatchDir(str(local_output_dir), "latch:///" + output_dir) #still not sure what the 2 dirs for (local , remote)
+    return LatchDir(str(local_output_dir), remote_path) #still not sure what the 2 dirs for (local , remote)    #"latch:///" + 
 
     #for local dev
     # return LatchDir(str(local_output_dir), output_dir)
@@ -67,7 +74,7 @@ def preprocessing(meta: LatchFile, samples: LatchFile, data: LatchFile, output_d
 
 #Images not supported in Latch markdown
 @workflow
-def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: str) -> LatchDir:
+def metabolon(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: LatchDir) -> LatchDir:
     """This pipeline is designed to summarize all the preprocessing and down stream analysis for the metabolomics data.
 
     MetabolonR
@@ -126,4 +133,5 @@ def MetaLINCS(meta: LatchFile, samples: LatchFile, data: LatchFile, output_dir: 
 
 #prolly need fix this... maybe i gotta uninstall some packages?
 if __name__ == "__main__":
-    MetaLINCS( meta = LatchFile("/home/zyads/metalincs/data/meta.csv"), samples = LatchFile("/home/zyads/metalincs/data/samples.csv"), data = LatchFile("/home/zyads/metalincs/data/data.csv"), output_dir = "results") 
+    #MetaLINCS
+    metabolon( meta = LatchFile("/home/zyads/metalincs/data/meta.csv"), samples = LatchFile("/home/zyads/metalincs/data/samples.csv"), data = LatchFile("/home/zyads/metalincs/data/data.csv"), output_dir = "results") 

@@ -21,12 +21,11 @@ FROM 812206152185.dkr.ecr.us-west-2.amazonaws.com/latch-base:02ab-main
 
 # RUN docker pull rpy2/rpy2
 # RUN python3 -m pip install rpy2 - would have to install pip too
-RUN apt-get update &&\
-    apt-get install -y software-properties-common &&\
-    add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian buster-cran40/" &&\
-    apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev libssl-dev wget
+# RUN apt-get update &&\
+#     apt-get install -y software-properties-common &&\
+#     add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian buster-cran40/" &&\
+#     apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev libssl-dev wget
 
-COPY wf /root/wf
 
 #Install R
 RUN apt install -y dirmngr apt-transport-https ca-certificates software-properties-common gnupg2
@@ -63,21 +62,57 @@ RUN apt-get update -qq && \
 # Install system dependencies for devtools
 RUN apt-get update -qq && \
         DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        git \
-        libssl-dev \
-        libicu-dev \
-        libxml2-dev \
-        make \
-        libgit2-dev \
-        pandoc \
-        libgsl-dev
+        # git \
+        # libssl-dev \
+        # libicu-dev \
+        # libxml2-dev \
+        # make \
+        # libgit2-dev \
+        pandoc
+        # libgsl-dev
 
 
 #Install R packages
 # RUN R -e 'install.packages("devtools",repo="https://cloud.r-project.org",dependencies = TRUE)'
-# RUN R -e 'install.packages("BiocManager",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("BiocManager",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'BiocManager::install("DESeq2")'
+
 RUN R -e 'install.packages("rmarkdown",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("glmnet",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("ggplot2",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("scales",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("pheatmap",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("tidyverse",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'BiocManager::install(c("impute"))'
+# RUN R -e 'install.packages(c("dplyr", "devtools", "BiocManager", "plot3D"))'
+# RUN R -e 'install.packages("impute",repo="https://cloud.r-project.org",dependencies = TRUE)'
+
+# RUN R -e 'install.packages("reshape2",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("magrittr",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("ggpubr",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("lsmeans",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("multcomp",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("corrplot",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("Hmisc",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("ComplexHeatmap",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# RUN R -e 'install.packages("circlize",repo="https://cloud.r-project.org",dependencies = TRUE)'
 # RUN R -e 'devtools::install_github("GreenleafLab/ArchR", ref="master", repos = BiocManager::repositories())'
+
+#get shiny
+RUN R -e 'install.packages("shiny",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("shinydashboard",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("shinyjs",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("shinyWidgets",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("shinyalert",repo="https://cloud.r-project.org",dependencies = TRUE)'
+RUN R -e 'install.packages("shinycssloaders",repo="https://cloud.r-project.org",dependencies = TRUE)'
+# #Install wget
+# RUN apt-get update -qq && \
+#         DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#         wget
+#install latest version of Pandoc
+# RUN wget -qO - https://raw.githubusercontent.com/jgm/pandoc/master/misc/install.sh | bash
+
+COPY wf /root/wf
 
 # STOP HERE:
 # The following lines are needed to ensure your build environement works

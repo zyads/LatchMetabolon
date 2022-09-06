@@ -1,0 +1,132 @@
+SAMPLE_NAME,SAMPLE_ID,CLIENT_IDENTIFIER,AGE,BMI,OBESITY,GENDER,GROUP_DESCRIPTION,GROUP_ID,GROUP_NUMBER,NEUROPATHY,PREFIX_GROUP,SAMPLE_NUMBER,Group   
+MICH-01525,5946343,400_103,60,52.7,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,1,Obese_N
+MICH-01526,5946344,400_106,48,41.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,2,Obese_N
+MICH-01527,5946345,400_108,58,43.7,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,3,Obese_NoN
+MICH-01528,5946346,400_113,48,51.3,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,4,Obese_N
+MICH-01529,5946347,400_114,53,46.6,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,5,Obese_NoN
+MICH-01530,5946348,400_117,57,42.4,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,6,Obese_NoN
+MICH-01531,5946349,400_118,68,36,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,7,Obese_N
+MICH-01532,5946350,400_120,57,38,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,8,Obese_NoN
+MICH-01533,5946351,400_121,50,53.5,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,9,Obese_N
+MICH-01534,5946352,400_123,48,38.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,10,Obese_N
+MICH-01535,5946353,400_124,53,42.8,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,11,Obese_NoN
+MICH-01536,5946354,400_125,45,49.9,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,12,Obese_N
+MICH-01537,5946355,400_129,70,38,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,13,Obese_NoN
+MICH-01538,5946356,400_134,47,44.8,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,14,Obese_NoN
+MICH-01539,5946357,400_138,46,41,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,15,Obese_NoN
+MICH-01540,5946358,400_149,56,43,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,16,Obese_NoN
+MICH-01541,5946359,400_153,58,43.6,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,17,Obese_NoN
+MICH-01542,5946360,400_154,39,54.9,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,18,Obese_N
+MICH-01543,5946361,400_169,54,50.3,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,19,Obese_NoN
+MICH-01544,5946362,400_171,37,48.2,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,20,Obese_NoN
+MICH-01545,5946363,400_177,58,48.1,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,21,Obese_N
+MICH-01546,5946364,400_181,37,55.9,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,22,Obese_NoN
+MICH-01547,5946365,400_182,37,44.3,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,23,Obese_N
+MICH-01548,5946366,400_183,53,56.6,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,24,Obese_N
+MICH-01549,5946367,400_185,41,50.5,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,25,Obese_NoN
+MICH-01550,5946368,400_186,64,45.5,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,26,Obese_NoN
+MICH-01551,5946369,400_190,58,39.7,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,27,Obese_N
+MICH-01552,5946370,400_193,51,49.6,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,28,Obese_NoN
+MICH-01553,5946371,400_194,45,36.5,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,29,Obese_NoN
+MICH-01554,5946372,400_197,48,43.3,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,30,Obese_N
+MICH-01555,5946373,400_200,47,46,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,31,Obese_N
+MICH-01556,5946374,400_201,67,39.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,32,Obese_N
+MICH-01557,5946375,400_206,45,41.3,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,33,Obese_N
+MICH-01558,5946376,400_207,42,51.8,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,34,Obese_NoN
+MICH-01559,5946377,400_209,50,54,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,35,Obese_N
+MICH-01560,5946378,400_211,65,43.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,36,Obese_N
+MICH-01561,5946379,400_213,58,39.6,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,37,Obese_NoN
+MICH-01562,5946380,400_214,29,53.8,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,38,Obese_N
+MICH-01563,5946381,400_218,55,44.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,39,Obese_N
+MICH-01564,5946382,400_223,63,41.8,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,40,Obese_NoN
+MICH-01565,5946383,400_226,47,39.2,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,41,Obese_NoN
+MICH-01566,5946384,400_227,47,59.4,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,42,Obese_NoN
+MICH-01567,5946385,400_231,65,42,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,43,Obese_NoN
+MICH-01568,5946386,400_233,27,53.9,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,44,Obese_NoN
+MICH-01569,5946387,400_234,51,46.4,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,45,Obese_N
+MICH-01570,5946388,400_244,48,50.6,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,400,46,Obese_NoN
+MICH-01571,5946389,400_248,61,39.6,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,47,Obese_N
+MICH-01572,5946390,400_249,49,35.8,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,400,48,Obese_NoN
+MICH-01573,5946391,400_252,45,64.8,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,49,Obese_N
+MICH-01574,5946392,400_253,44,56.6,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,50,Obese_N
+MICH-01575,5946393,400_258,51,36.7,Obese,Female,Obese with Neuropathy,Obese_N,1,N,400,51,Obese_N
+MICH-01576,5946394,400_260,63,34.7,Obese,Male,Obese with Neuropathy,Obese_N,1,N,400,52,Obese_N
+MICH-01577,5946395,9_002,25,23.5,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,53,Lean_NoN
+MICH-01578,5946396,9_005,68,23.7,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,54,Lean_NoN
+MICH-01579,5946397,9_006,46,22.5,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,55,Lean_NoN
+MICH-01580,5946398,9_007,51,22.3,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,56,Lean_NoN
+MICH-01581,5946399,9_010,49,22.7,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,57,Lean_NoN
+MICH-01582,5946400,9_012,62,22,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,58,Lean_NoN
+MICH-01583,5946401,9_018,53,24,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,59,Lean_NoN
+MICH-01584,5946402,9_020,43,18.4,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,60,Lean_NoN
+MICH-01585,5946403,9_021,51,21.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,61,Lean_NoN
+MICH-01586,5946404,9_023,58,23.3,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,62,Lean_NoN
+MICH-01587,5946405,9_024,51,26.5,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,63,Lean_NoN
+MICH-01588,5946406,9_026,23,23.6,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,64,Lean_NoN
+MICH-01589,5946407,9_027,44,23.5,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,65,Lean_NoN
+MICH-01590,5946408,9_032,41,26.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,66,Lean_NoN
+MICH-01591,5946409,9_033,37,26.5,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,67,Lean_NoN
+MICH-01592,5946410,9_036,46,23.2,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,68,Lean_NoN
+MICH-01593,5946411,9_037,41,22,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,69,Lean_NoN
+MICH-01594,5946412,9_038,33,22.5,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,70,Lean_NoN
+MICH-01595,5946413,9_041,40,20,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,71,Lean_NoN
+MICH-01596,5946414,9_043,57,19,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,72,Lean_NoN
+MICH-01597,5946415,9_050,37,20.4,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,73,Lean_NoN
+MICH-01598,5946416,9_058,32,20.4,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,74,Lean_NoN
+MICH-01599,5946417,9_059,48,24.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,75,Lean_NoN
+MICH-01600,5946418,9_062,34,23.1,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,76,Lean_NoN
+MICH-01601,5946419,9_063,45,24,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,77,Lean_NoN
+MICH-01602,5946420,9_066,38,20.9,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,78,Lean_NoN
+MICH-01603,5946421,9_068,49,23.9,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,79,Lean_NoN
+MICH-01604,5946422,9_069,46,25.9,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,80,Lean_NoN
+MICH-01605,5946423,9_070,63,21.3,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,81,Lean_NoN
+MICH-01606,5946424,9_071,52,24.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,82,Lean_NoN
+MICH-01607,5946425,9_073,35,24.9,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,83,Lean_NoN
+MICH-01608,5946426,9_074,55,24.6,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,84,Lean_NoN
+MICH-01609,5946427,9_077,35,19.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,85,Lean_NoN
+MICH-01610,5946428,9_078,20,21.4,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,86,Lean_NoN
+MICH-01611,5946429,9_079,74,25.2,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,87,Lean_NoN
+MICH-01612,5946430,9_081,56,23.9,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,88,Lean_NoN
+MICH-01613,5946431,9_082,32,21.7,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,89,Lean_NoN
+MICH-01614,5946432,9_083,49,22.7,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,90,Lean_NoN
+MICH-01615,5946433,9_084,52,21.9,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,91,Lean_NoN
+MICH-01616,5946434,9_085,30,19.5,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,92,Lean_NoN
+MICH-01617,5946435,9_087,32,24.3,Lean,Male,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,93,Lean_NoN
+MICH-01618,5946436,9_089,30,21.8,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,94,Lean_NoN
+MICH-01619,5946437,9_090,26,25.3,Lean,Female,Lean Controls without Neuropathy,Lean_NoN,3,NoN,9,95,Lean_NoN
+MICH-01620,5946438,S_1812_002669,64,43.3,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,96,Obese_N
+MICH-01621,5946439,S_1812_002670,46,44.9,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,97,Obese_N
+MICH-01622,5946440,S_1812_002671,50,41.4,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,98,Obese_NoN
+MICH-01623,5946441,S_1812_002672,55,50.2,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,99,Obese_N
+MICH-01624,5946442,S_1812_002673,51,42.9,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,100,Obese_N
+MICH-01625,5946443,S_1812_002674,54,34.3,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,101,Obese_NoN
+MICH-01626,5946444,S_1812_002675,65,37.3,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,102,Obese_NoN
+MICH-01627,5946445,S_1812_002676,53,51,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,103,Obese_N
+MICH-01628,5946446,S_1812_002677,48,37.7,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,104,Obese_NoN
+MICH-01629,5946447,S_1812_002678,50,46,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,105,Obese_NoN
+MICH-01630,5946448,S_1812_002679,61,32,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,106,Obese_NoN
+MICH-01631,5946449,S_1812_002680,62,34.9,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,107,Obese_N
+MICH-01632,5946450,S_1812_002681,52,46.7,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,108,Obese_NoN
+MICH-01633,5946451,S_1812_002682,57,38.9,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,109,Obese_NoN
+MICH-01634,5946452,S_1812_002683,57,45.6,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,110,Obese_NoN
+MICH-01635,5946453,S_1812_002684,58,48.1,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,111,Obese_NoN
+MICH-01636,5946454,S_1812_002685,56,39.2,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,112,Obese_NoN
+MICH-01637,5946455,S_1812_002686,55,36.3,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,113,Obese_NoN
+MICH-01638,5946456,S_1812_002687,53,46.1,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,114,Obese_NoN
+MICH-01639,5946457,S_1812_002688,57,34.6,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,115,Obese_NoN
+MICH-01640,5946458,S_1812_002689,63,38,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,116,Obese_N
+MICH-01641,5946459,S_1812_002690,57,43.2,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,117,Obese_NoN
+MICH-01642,5946460,S_1812_002691,52,43.2,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,118,Obese_N
+MICH-01643,5946461,S_1812_002692,55,50.6,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,119,Obese_N
+MICH-01644,5946462,S_1812_002693,45,44.6,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,120,Obese_N
+MICH-01645,5946463,S_1812_002694,43,35,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,121,Obese_NoN
+MICH-01646,5946464,S_1812_002695,48,42.5,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,122,Obese_N
+MICH-01647,5946465,S_1812_002696,63,35.8,Obese,Male,Obese without Neuropathy,Obese_NoN,2,NoN,S,123,Obese_NoN
+MICH-01648,5946466,S_1812_002697,65,38.1,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,124,Obese_N
+MICH-01649,5946467,S_1812_002698,57,40.1,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,125,Obese_N
+MICH-01650,5946468,S_1812_002699,63,46.7,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,126,Obese_N
+MICH-01651,5946469,S_1812_002700,58,37.3,Obese,Male,Obese with Neuropathy,Obese_N,1,N,S,127,Obese_N
+MICH-01652,5946470,S_1812_002701,55,40.7,Obese,Female,Obese without Neuropathy,Obese_NoN,2,NoN,S,128,Obese_NoN
+MICH-01653,5946471,S_1812_002702,64,42.7,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,129,Obese_N
+MICH-01654,5946472,S_1812_002703,59,38.3,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,130,Obese_N
+MICH-01655,5946473,S_1812_002704,46,40.8,Obese,Female,Obese with Neuropathy,Obese_N,1,N,S,131,Obese_N

@@ -12,90 +12,850 @@ output:
     toc_float:
       collapsed: false
       smooth_scroll: false
+runtime: shiny
 params:
-    out1: out1
+    # out1: out1
+    # out2: out2
+    # out3: out3
+    # out4: out4
+    # out5: out5
+    # out6: out6
+    # out7: out7
+    # out8: out8
+    # out9: out9
+    # out10: out10
+    # out11: out11
+    # out12: out12
+    metabolomics_data: metabolomics_data
+    samples_meta: samples_meta
+    metabolomics_meta: metabolomics_meta
 ---
+
+
+<!-- make a block to set working directory and print it-->
+```{r dumb, echo=FALSE}
+# cat("Current working directory: ",getwd(),"\n")
+# setwd("/root/results")
+# cat("Current working directory: ",getwd(),"\n")
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<!-- make a block to set working directory and print it-->
-```{r dumb}
-cat("Current working directory: ",getwd(),"\n")
-setwd("/root/results")
-cat("Current working directory: ",getwd(),"\n")
-```
 
-# Success
+# Successful run
 
 Thanks for running MetaLINCS on Latch! This is your summary.
 
-Can write more here for intro....
 
-```{r}
-
-#This code chunk is empty, other than this comment
-
-```
+# Pipeline Overview
+This pipeline is designed to summarize all the preprocessing and down stream analysis for the metabolomics data in one single notebook. You can use it as a template for your analysis. Please feel free to add more functions and distribute it with others. You can contact me if you have any questions: Fadhl Alakwaa alakwaaf@umich.edu
+![Pipeline overview.](/root/wf/workflowIM.png)
 
 When pound signs (hashtags) are outside of code blogs, they indicate headers. # Largest Header. ## Smaller header. ### Even Smaller Header. You can see these when this file is knit (more on that later)
 
 Optional: find the "explore document outline" option to see how headers automatically sort into an interactive document outline in Rmarkdown.
-
-Maybe have packages here?
   
+##  List of loaded packages and their citation
+========================================
+ComplexHeatmap version 2.0.0
+Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
+Github page: https://github.com/jokergoo/ComplexHeatmap
+Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
 
-## Install packages 
-(done only once) rn idk why this is not small header
+If you use it in published research, please cite:
+Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
+  genomic data. Bioinformatics 2016.
+========================================
 
-There are well over 10,000 packages people have created that allow you to do different things with R -- and in different ways. (R generally has many different ways of doing the same thing.)
+========================================
+circlize version 0.4.8
+CRAN page: https://cran.r-project.org/package=circlize
+Github page: https://github.com/jokergoo/circlize
+Documentation: http://jokergoo.github.io/circlize_book/book/
 
-You will probably need the below packages on some of the assignments, so you might as well install them now. Don't worry about what they do right now.
+If you use it in published research, please cite:
+Gu, Z. circlize implements and enhances circular visualization 
+  in R. Bioinformatics 2014.
+========================================
+
 
 # Preprocessing
 
-```{r, echo=FALSE}
-print(out1)
+
+<!-- Make Library block -->
+```{r library, echo=FALSE}
+library(tidyverse)
+library(impute)
+
+library(shiny)
+library(shinyjs)
+# library(shinythemes)
+library(shinycssloaders)
+library(shinyWidgets)
+library(shinydashboard)
+library(shinyalert)
+
 ```
 
-<!-- # install.packages("glmnet")
-# install.packages("ggplot2")
-# # devtools::install_github("xia-lab/MetaboAnalystR", build = TRUE, build_vignettes = TRUE, build_manual =T)
-# install.packages("scales")
-# install.packages("pheatmap")
-# install.packages("tidyverse")
-# install.packages("reshape")
-# install.packages("magrittr")
-# install.packages("ggpubr")
-# install.packages("ggplot2")
-# install.packages("lsmeans")
-# install.packages("multcomp")
-# install.packages("ggplot2")
-# install.packages("corrplot")
-# install.packages("Hmisc")
-# BiocManager::install("ComplexHeatmap")
-# install.packages("circlize")
+<!-- UI block -->
+```{r ui, echo=FALSE}
+dashboardPage(
+  
+  # tags$head(tags$link(rel="icon", href="favicon.ico")),             #attempt 1
+  # tags$head(tags$link(rel="shortcut icon", href="URL-to-favicon")), #attempt 2
+  
+  dashboardHeader(title = div(HTML('MetaLINCS<i><b>R</b></i>')),
+                  tags$li(class="dropdown",tags$a(href="", icon("youtube"), "My Channel", target="_blank")),
+                  tags$li(class="dropdown",tags$a(href="" ,icon("linkedin"), "My Profile", target="_blank")),
+                  tags$li(class="dropdown",tags$a(href="", icon("github"), "Source Code", target="_blank")),
+                  dropdownMenu( type = 'message',
+                                      customSentence = tags$li("Feedback and Suggestions"),
+                                      messageItem(
+                                        from = "zyads@umich.edu",#'Feedback and suggestions',
+                                        message =  "",#paste0("zyads@umich.edu" ),
+                                        icon = icon("envelope"),
+                                        href = "mailto:zyads@umich.edu"
+                                      ),
+                                      icon = icon('comment'))
+                  ),#tags$i("MetaLINCSR")), #c("MetaLINCS", (tags$i("R")))),
+  
+  
+  ## Sidebar content
+  dashboardSidebar(
+    sidebarMenu(
+      id = "tabs",
+      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+      menuItem("iLINCS", tabName = "LINCSTAB", icon = icon("connectdevelop")),
+      menuItem("Data Upload", tabName = "upload", icon = icon("upload")),
+      menuItem("Preview Data", tabName = "preview", icon = icon("search")),
+      menuItem("Filtration and Preprocessing", icon = icon("calculator") , startExpanded = T,
+               menuSubItem("Filtration", tabName = "calculation", icon = icon("calculator")),
+               menuSubItem("What Was Removed?", tabName = "Whatwasrem", icon = icon("question")),
+               menuSubItem("Data Distribution", tabName = "graphs", icon = icon("chart-area"))),
+      
+      menuItem("PCA", tabName = "PCA", icon = icon("chart-bar")),
+      # menuItem("PCA", icon = icon("chart-bar"), startExpanded = T,
+      #          selectInput("region", "PCA PLOT:", 
+      #                      choices=colnames(samples_meta)),
+      #          menuSubItem("Desired PCA Plot", tabName = "PCA", icon = icon("chart-bar"))),
+      # 
+      menuItem("Sources of Variation", tabName = "SourcesVariation", icon = icon("greater-than-equal")),
+      
+      menuItem( "Biomarker Analysis", tabName = "Biomarker", icon = icon('barcode'), startExpanded = T, ### make false if want
+                menuSubItem('DMs using Limma'#(Statistical Summary)
+                            , tabName = "limma", icon = icon("bolt") ),#icon = icon('export', lib = 'glyphicon')),
+                # menuSubItem('DMs using T-test' #(Statistical Summary)
+                #             , tabName = "t_test", icon = icon("bolt") ),#icon = icon('import', lib = 'glyphicon')),
+                # menuSubItem('DMs using adjusted lm' #adjusted for sex and age
+                #             , tabName = "lm", icon = icon("bolt") ),
+                menuSubItem('DMs using Elastic Net', tabName = "en", icon = icon("bolt"))),
+     # ## Show panel only when Biomarker Analysis sidebar is selected
+      # useShinyjs(),
+      
+      menuItem("Machine Learning", tabName = "ML", icon = icon("project-diagram"))#,
+      # menuItem("Cytoscape Correlation Analysis", tabName = "CA", icon = icon("chart-line")),
+      # menuItem("Complex Heat Map", tabName = "CHM", icon = icon("sitemap")),
+      # menuItem("Summary", tabName = "END", icon = icon("hourglass-end"))
+     
+     
+     
+     
+     # ,
+     #  
+     #  uiOutput('ui')
+      #, menuItem( "Stats NZ Releases", tabName = 'monthly_update', icon = icon('bell'),
+      #badgeLabel = "new", badgeColor = "green" ) ------ oooh nice
+    )
+  ),
 
-# library(glmnet)
-# library(ggplot2)
-# #library(MetaboAnalystR) # It will take long time to install, you can comment this line 
-# library("scales")
-# library(pheatmap)
-# library(tidyverse)
-# library(reshape2)
-# library(magrittr)
-# library("ggpubr")
-# library(lsmeans)
-# library(multcomp)
-# library(corrplot)
-# library("Hmisc")
-# library(ComplexHeatmap)
-# library(circlize)
+  dashboardBody(
+    tabItems(
+      # First tab content
+      tabItem(tabName = "dashboard",
+            fluidPage( #theme = shinytheme("flatly"),
+              column(12, 
+                     align="center",
+                     div(img(src="logo.png", align = "center"), 
+                         style="display: inline-block;")),
+                     #div(src="logo.png", style="text-align: center;"),
+              column(12,
+                     p(strong("MetabolonR"), " is an accessible and easy to use RShiny web app that offers metabolic analysis and visualization for scientists, without the need of prior coding experience.
+                     It eliminates the difficulty of having to work with different R packages, while providing features that are crucial in processing Metabolomics data. The flow of the app is as follows:"
+                       ), style = "font-family: 'times'; font-si16pt",
+                     
+                     br(),
+                     tags$ul(
+                       tags$li("After uploading the sample and metabolomic data sets, missing values are imputed using the k-nearest neighbor (KNN)."), 
+                       tags$li("Normalization using the log2 function is used for better visualization."), 
+                       tags$li("Bar graphs and density plots are displayed, allowing for a screening for anomalies."),
+                       tags$li("Users can then analyze data using principal component analysis models."),
+                       tags$li("Summary reports are generated and can be downloaded along with processed data for other usage."),
+                       tags$li("Sources of variation plots present the relative contribution of factors such as age, gender, race and other variables. These factors are factored into the ANOVA model to explain variability of specific features and subpathways."),
+                       tags$li("In the downstream analysis, biomarker discovery is conducted on the matched metabolite and sample data through the Limma package."),
+                       tags$li("Glmnet package is used to further identify differentiated metabolites between patients (in our case obese patients with and without neuropathy)."),
+                       tags$li("The Elastic Net method selects metabolites that have non-zero coefficients at different values of lambda, guided by two penalty parameters alpha and lambda."),
+                       tags$li("Alpha sets the degree of mixing between lasso (when alpha=1) and the ridge regression (when alpha=0)."),
+                       tags$li("Lambda controls the shrunk rate of coefficients regardless of the value of alpha."),
+                       tags$li("Lastly, metabolites identified by elastic net are used to build a classification model to predict the neuropathy status of obese patients. Scripts from the Lilikoi R package are used for machine learning.")
+                     ),
+                     br(),
+                     ),
+              
+              column(12, align="left",
+                       div(style="display:inline-block;",
+                           tags$p(tags$b("Citation:")),
+                           tags$p(tags$i("F. Alakwaa, et al. “MetabolonR: 
+                                                            an R package for personalized pathway-based classification modeling using 
+                                                            metabolomics data,” bioRxiv, 2020.")))),
+              ###### Fix sometime later!!!!!!!!!!
+              
+              
+              
+              br(),
+              column(12, align="left",
+                     div(style="display:inline-block;",
+                         tags$p(tags$b("Link:")),
+                         tags$p(uiOutput("tabb3")))),
+              column(12, align = "left",
+                     div(style="display:inline-block;",
+                         actionBttn("Shinybutton", "START", style = "gradient", color = "warning")),
+                     div(style="display:inline-block;",
+                         actionBttn("LINCSBUTTON", "LINCS", style = "gradient", color = "danger"))
+            ))
+                    
+      ),
+      
+      ########################################################################
+      tabItem(tabName = "LINCSTAB",
+              fluidPage(
+                verticalLayout(
+                  column(12, 
+                        box(
+                         box(width = "700", title = "LINCS SIGNATURE LIBRARIES", withSpinner(DT::dataTableOutput("lincslibraries"))),#, useShinyalert()
+                  # column(2, offset = 10,
+                  #        actionBttn("Click20", label = "SUBMIT",style="minimal",color = "success", size="lg"))
+                          uiOutput("lincslibselect")
+                        ),
+                        box(
+                          uiOutput("sigselect"),
+                          box(width = "700", title = "SIGNATURE DATA", withSpinner(DT::dataTableOutput("sigresults"))),
+                          uiOutput("sigselectionn"),
+                          
+                          actionButton("linc1", "Find Sig!"),
+                        )
+                  ),
+                  column(12,
+                  
+                    box(width = "700", title = "Signature Data", withSpinner(DT::dataTableOutput("sigDATA"))),
+                    box(width = "700", uiOutput(outputId = "volcanolinc"))
+                  )
+                  
+                  # column(2, offset = 10,
+                  #                  actionBttn("Click21", label = "Preview",style="minimal",color = "success", size="lg"))
+                ))),
+      
+      #think about adding download feature with report as well..... IF WE WANT FILTRATION ON THIS DATA
+      #CAN DO SO MUCH MORE WITH LINCS
+      #connect this to my app, modulize ilincs for different purposes, then move on to pinet and clue.io
+      
+      
+      tabItem(tabName = "upload",
+              fluidPage(
+                verticalLayout(
+                  
+                  column(12, align = "center",
+                         box(actionButton("do", "TRY TEST OBESE DATA"),
+                             tags$p("Study ID:", uiOutput("tabb4") )), #downloadLink('Sampledata')
+                         ),
+                  column(12, align = "center",
+                         box(actionButton("do2", "TRY TEST KIDNEY DATA")),
+                             # tags$p("Study ID:", uiOutput("tabb4") )), #downloadLink('Sampledata')
+                  ),
+                  
+                  column(12,
+                         box(height = '200px', 
+                             fileInput("Data","Upload Metabolomics Data", multiple = FALSE,
+                                       accept = c(#"text/csv",
+                                                  #"text/comma-separated-values,text/plain",
+                                                  ".csv", ".xlsx")),
+                             helpText("Default max. file size is 5MB.")
+                             )
+                         ),
+                  
+                  br(),
+                  column(12,
+                         box(height = '200px', 
+                             fileInput("Data2","Upload Metabolomics Annotations", multiple = FALSE,
+                                       accept = c(#"text/csv",
+                                                  #"text/comma-separated-values,text/plain",
+                                                  ".csv", ".xlsx")),
+                         )),     #tags$p("Or Use Our Data:", downloadLink('Sampledata')))),----Someday fix
+                  br(),
+                  column(12,
+                         box(height = '200px', 
+                             fileInput("Data3","Upload Samples Annotations", multiple = FALSE,
+                                       accept = c(#"text/csv",
+                                                  #"text/comma-separated-values,text/plain",
+                                                  ".csv", ".xlsx")),
+                         )),     #tags$p("Or Use Our Data:", downloadLink('Sampledata')))), 
+                  ###----Someday fix
+                  
+                  # column(2, offset = 10,
+                  #        actionBttn("DEMO", label = "DEMO",style="minimal",color = "success", size="lg")),
+                  
+                  column(2, offset = 10,
+                         actionBttn("Click2", label = "SUBMIT",style="minimal",color = "success", size="lg"))
+                ))),
+      tabItem(tabName = "preview",
+              verticalLayout(    
+                fluidPage(column(12,
+                                 box(width = "700", title = "Metabolomics Data", withSpinner(DT::dataTableOutput("table")))),
+                          useShinyalert(),
+                          # column(6,
+                          #        infoBoxOutput("tablestat1"))
+                          #,column(6,
+                          #infoBoxOutput("tablestat2"))
+                )),
+              verticalLayout(    
+                fluidPage(column(12,
+                                 box(width = "700", title = "Metabolomics Annotations", withSpinner(DT::dataTableOutput("table2")))),
+                          useShinyalert(),
+                          # column(6,
+                          #        infoBoxOutput("2tablestat1"))
+                          #,column(6,
+                          #infoBoxOutput("2tablestat2"))
+                )),
+              verticalLayout(    
+                fluidPage(column(12,
+                                 box(width = "700", title = "Samples Annotations", withSpinner(DT::dataTableOutput("table3")))),
+                          useShinyalert(),
+                          # column(6,
+                          #        infoBoxOutput("3tablestat1"))
+                          #,column(6,
+                          #infoBoxOutput("3tablestat2"))
+                )),
+              fluidPage(column(2, offset = 10,
+                               actionBttn("Click5", label = "Filteration",style="minimal",color = "success", size="lg")))),
+      tabItem(tabName = "calculation",
+              fluidPage(
+                verticalLayout(
+                  column(12, align = "center", style = "font:bold",
+                         tags$h2("Screening and Filtration Report:"),
+                         tags$h5("(We removed the metabolites with low variability and high missingness, then used KNN for imputation and log2 for transformation.)"),
+                         ),
+                  
+                  column(12,
+                        box(width = "700", title = "Ensured All Metabolite Values Are Numeric", status = "info",
+                          span(htmlOutput("naMessage"), style = "font-size: 25px"),
+                          tags$h3("2. Calculated the percentage of missinginess:"),
+                          infoBoxOutput("percentage")
+                          )),
+                        
+                  column(12,
+                        box(width = "700", title = "Metabolite Data Filtration", status = "info", 
+                            tags$h3("3. Removed metabolites with a constant or single value across metabolite samples."),
+                            span(htmlOutput("deleted"), style = "font-size: 20px"),
+                            tags$h3("4. Removed metabolites if they were missed across more than selected threshold of the sample."),
+                            sliderInput("threshold", "Percent Threshold:",
+                                        min = 0, max = 100,
+                                        value = 50),
+                            span(htmlOutput("fifdeleted"), style = "font-size: 20px"),
+                            # tags$h3("-----------------------"),
+                            # infoBoxOutput("Totalrem")
+                            # uiOutput("RemoveFilter"),
+                            uiOutput("RemoveFilter"),
+                            tags$h3('For more detail on what was removed, based on pathway, navigate to'),
+                            actionBttn("Clicktab4", label = "What Was Removed?",style="pill", color = "success", size="sm")
+                        )),
+                  
+                 column(12,
+                        box(width = "700", title = "Imputation and Log Transformion", status = "info",
+                          tags$h3("5. Imputed the remaining missed metabolites using K-Nearest Neighbours."),
+                          tags$h3("6. Log transformed using log2 function."),
+                          tags$h3("----------------------------------------------------------------------------------------------------------------------------------------"),
+                          tags$h4("Imputed and Log Transformed Data:", style = "font:bold"),
+                          withSpinner(DT::dataTableOutput("IMPUTED"))
+                        )),
+                        
+                  column(12,
+                         box(width = "700", title = "Filtration Complete", status = "info",
+                          tags$h3("7. You may download modified data or filtration summary. Preview data distrubution on next page."),
+                          downloadButton("downloadData", "Download Data"),
+                          downloadButton("report", "Download Report"))
+                        )
+                  ),
+                  # column(12,
+                  #        tags$h3("==============================================")),
+                  # column(12,
+                  #        tags$h3("==============================================")),
+                  # column(12,
+                  #        tags$h3("==============================================")),
+                
+                  
+                  
+                  
+                  column(2,offset = 10,
+                       actionBttn("Click6", label = "Data Distribution",style="minimal", color = "success", size="lg")))),
+      
+      tabItem(tabName = "graphs",
+              fluidPage(
+                
+                # column(12, style = "font:bold",
+                #        tags$h3("Averaged Plots:")
+                # ),
+                
+                column(12, align = "center",
+                       plotOutput("beforeplot", height = 1000, width = 1000)),#, plotOutput("afterplot")),
+                # column(12,
+                #        plotOutput("beforebar"), plotOutput("afterbar")),
+                br(),
+                column(12, tags$h3("")),
+                column(12, align = "center",
+                       plotOutput("beforebarsam", height = 500, width = 1000)), #, plotOutput("afterbarsam")),
+                # column(12,
+                #        box(width = "700", withSpinner(DT::dataTableOutput("normData")))),
+                column(2,offset = 10,
+                       actionBttn("Click8", label = "PCA",style="minimal", color = "success", size="lg")))),
+      tabItem(tabName = "Whatwasrem", 
+              fluidPage(
+                column(12,
+                       # uiOutput("RemoveFilter"),
+                       box(width = "700", withSpinner(tableOutput("removedMeta")))),
+                column(12,
+                       box(width = "700", withSpinner(DT::dataTableOutput("metabolitesModified")))),
+                column(12,
+                       infoBoxOutput("Totalrem")),
+                column(2,offset = 10,
+                       actionBttn("Click9", label = "Back to Filtration",style="minimal", color = "success", size="lg")))),
+      tabItem(tabName = "PCA",
+              fluidPage(
+                column(12, align = "center", tags$h3("PCA Group_ID and Obesity")),
+                # column(12, align = "center",
+                #        uiOutput("cityShape")),
+                       # plotOutput("PCA1", height = 500, width = 700)),
+                br(),
+                column(12, tags$h3("")),
+                column(12, align = "center",
+                       # conditionalPanel(
+                       #   condition = exists(samples_meta),
+                       box( width = "700",
+                       splitLayout(
+                         uiOutput("cityShape"),
+                        uiOutput("cityControls")
+                       )
+                       ),
+                       # selectInput("region", "PCA PLOT:", 
+                       #               choices=colnames(samples_meta)),
+                       # ),
+                       plotOutput("phonePlot", height = 500, width = 700)
+                       ),
+                # column(12, align = "center",
+                #        splitLayout(plotOutput("PCA2", height = 300, width = 400),
+                # #column(12, align = "center",
+                #        plotOutput("PCA3", height = 300, width = 400),
+                # #column(12, align = "center",
+                #        plotOutput("PCA4", height = 300, width = 400)),
+                # #column(12, align = "center",
+                #         splitLayout(plotOutput("PCA5"),#, height = 500, width = 700))),
+                # #column(12, align = "center",
+                #        plotOutput("PCA6"))),#, height = 500, width = 700)),
+                # # column(12,
+                # #        plotOutput("PCA7")),
+                column(2,offset = 10,
+                       actionBttn("Click10", label = "Source of Variation",style="minimal", color = "success", size="lg")))),
+      tabItem(tabName = "SourcesVariation",
+              fluidPage(
+                # column(12,
+                #        tags$h3("Overall Sources of Variation:")),
+                column(12, align= "center",
+                       # conditionalPanel(
+                       #   condition = exists(samples_meta),
+                       uiOutput("cityControls1"),
+                       # selectInput("slctsv", "Interested Factors:", multiple = TRUE,
+                       #               choices=colnames(samples_meta)),
+                       # ),  
+                       
+                         # checkboxGroupInput("slctsv", "Interested Factors:", colnames(samples_meta)),
+                    actionBttn("ClickSV", label = "Submit", style="pill", color = "success", size="sm")),
+                br(),
+                column(12, align= "center",
+                       (plotOutput("SourcesVariation", width = 800)%>% withSpinner(color="#0dc5c1"))), #can add splitLayout
+                column(12, align= "center",
+                       tags$h3("Source of variation per sub/super pathway:"),
+                       tags$h4("Please select you sub and super pathway columns if they exist:"),
+                       uiOutput("svselection"),
+                       splitLayout(
+                         plotOutput("SourcesVariation2", height = 300, width = 400)%>% withSpinner(color="#0dc5c1"),
+                # column(12,
+                #        tags$h3("Source of variation per sub pathway:")),
+                          plotOutput("SourcesVariation3", height = 300, width = 1500)%>% withSpinner(color="#0dc5c1")
+                        )
+                      ),
+                
+                # column(12,
+                #        box(width = "700", title = "Normalized Data Label", withSpinner(DT::dataTableOutput("normdatalbl")))),
+                column(2,offset = 10,
+                       actionBttn("Click11", label = "DMs Limma",style="minimal", color = "success", size="lg")))),
+      tabItem(tabName = "limma",
+              fluidPage(
+                column(12, align="center",
+                       tags$h2("Differentiated metabolites (DMs) using Limma (Statistical Summary)")),
+                column(12,
+                       tags$h6("Note: If no table appears, it could be because limma did not identify any DMs.
+                               In our example, limma did not identify any DMs between obese patients with and without neuropathy."),
+                ),
+                column(12, align="center", box( width = "700", 
+                  column(4, selectizeInput("padjustmethod", "Select the p.adjust method:",
+                                 choices=c("", p.adjust.methods))),
+                  column(4, sliderInput("plimma", "p-value:",
+                              min = 0, max = 1,
+                              value = 0.05, step=0.01)),
+                  column(4, uiOutput("LimmaControls1"))
+                 )),
+                column(12, align="center",
+                       # tags$h4("Obese_N.vs.Obese_NoN"),
+                    # splitLayout(
+                      box(width = "700", 
+                          uiOutput("LimmaControls"),
+                          ),
+                      box(width = "700",
+                          span(htmlOutput("limmatext"), style = "font-size: 20px"), #maybe change later
+                          withSpinner(DT::dataTableOutput("ob"))
+                      )
+                    #)
+                    ),   
+                       # box(width = "700", withSpinner(tableOutput("ob")))),
+                       
+                # column(12,
+                #        tags$h4("Obese_N.vs.Lean_NoN"),
+                #        box(width = "700", withSpinner(tableOutput("le")))),
+                # column(12,
+                #        tags$h4("Obese_NoN.vs.Lean_NoN"),
+                #        box(width = "700", withSpinner(tableOutput("oble")))),
+                
+                #,
+                
+                # column(12, style = "font:bold",
+                #        tags$h3("Group Specific Density Plots:")),
+                
+                # column(12,
+                #        tabBox(
+                #          title = "Density Plots Before",
+                #          # The id lets us use input$tabset1 on the server to find the current tab
+                #          id = "tabset1", #height = "250px",
+                #          tabPanel("Obese_N.vs.Obese_NoN", plotOutput("beforeplot1")),
+                #          tabPanel("Obese_N.vs.Lean_NoN", plotOutput("beforeplot2" )),
+                #          tabPanel("Obese_NoN.vs.Lean_NoN", plotOutput("beforeplot3" ))
+                #        ),
+                #        
+                #        tabBox(
+                #          title = "Density Plots After",
+                #          # The id lets us use input$tabset1 on the server to find the current tab
+                #          id = "tabset2", #height = "250px",
+                #          tabPanel("Obese_N.vs.Obese_NoN", plotOutput("afterplot1" )),
+                #          tabPanel("Obese_N.vs.Lean_NoN", plotOutput("afterplot2" )),
+                #          tabPanel("Obese_NoN.vs.Lean_NoN", plotOutput("afterplot3" ))
+                #        )),
+                
+                
+                tags$h4(""),
+                # column(12,
+                #        tags$h4("Fold change"),
+                #        box(width = "700", withSpinner(DT::dataTableOutput("fchange")))),
+                # column(12,
+                #        tags$h4("Fold change (limma_dataframe)"),
+                #        box(width = "700", withSpinner(DT::dataTableOutput("fchange1")))),
+                column(2,offset = 10,
+                       actionBttn("Click12", label = "DMs Elastic Net",style="minimal", color = "success", size="lg")))), #included button in fluid page
+      # tabItem(tabName = "t_test",
+      #         fluidPage(
+      #           column(12, align="center",
+      #                  tags$h2("DMs using T-test (Statistical Summary)")),
+      #           column(12,
+      #                  tags$h5("Here we used pairwise.t.test function to find significant metabolites between different groups.
+      #                          You can adjusted for your comparison testing using parameter p.adjust.method."),
+      #               ),
+      #           
+      #           column(12,
+      #                  tags$h3("==============================================")),
+      #           # column(12,
+      #           #        span(htmlOutput("diffnl"), style = "font-size: 25px")),
+      #           # column(12,
+      #           #        span(htmlOutput("diffnl2"), style = "font-size: 25px")),
+      #           # column(12,
+      #           #        span(htmlOutput("diffn"), style = "font-size: 25px")),
+      # 
+      #           column(12,
+      #                  tags$h3("==============================================")),
+      #         
+      #         # column(12,
+      #         #        tags$h3("p_adjusted value:")),
+      #         # column(12,
+      #         #        box(width = "700", withSpinner(DT::dataTableOutput("p_adjust")))),
+      #         # 
+      #         # column(12, align = "center",
+      #         #        tags$h2("Venn Diagram")),
+      #         # column(12, align = "center",
+      #         #        plotOutput("venn", height = 1000, width = 1000)),
+      #           column(2,offset = 10,
+      #                  actionBttn("Click13", label = "Next",style="minimal", color = "success", size="lg")))), #included button in fluid page
+      # tabItem(tabName = "lm",
+      #         fluidPage(
+      #           column(12, align="center",
+      #                  tags$h2("DMs using lm adjusted for sex and age")),
+      #           column(12,
+      #                  tags$h5('Here we used glht function in multcomp package, you can correct for multiple comparsion using adjusted("fdr") option.'),
+      #           ),
+      #           
+      #           # column(12, align = "center",
+      #           #        plotOutput("statins", height = 1000, width = 1000)),
+      #           # column(12, align = "center",
+      #           #        plotOutput("betab", height = 1000, width = 1000)),
+      #           # column(12,
+      #           #        box(width = "700", title = "IDK FIX", withSpinner(DT::dataTableOutput("idk")))),
+      #           # column(12, align = "center",
+      #           #        tags$h2("Venn Diagram")),
+      #           # column(12, align = "center",
+      #           #        plotOutput("ven1", height = 1000, width = 1000)),
+      #           column(2,offset = 10,
+      #                  actionBttn("Click14", label = "Next",style="minimal", color = "success", size="lg")))), #included button in fluid page
+      tabItem(tabName = "en",
+              fluidPage(
+                
+                column(12, align="center",
+                       tags$h2("DMs using Elastic Net")),
+                
+                # column(align="center", uiOutput("enetcontrols") ),
+                column(width=12, align="center",
+                       box( width = "700",
+                  uiOutput("enetcontrols1"),
+                  uiOutput("enetcontrols")
+                       )
+                ),
+                column(12, align = "center",
+                       # splitLayout(
+                       box(width = "700",
+                           splitLayout(
+                         withSpinner(plotOutput("ACrossvalidation", height = 750, width = 750)), #render 1st
+                         withSpinner(plotOutput("piChart", height = 750, width = 750))  #4th
+                           )
+                       )
+                        #  plotOutput("BCrossvalidation", height = 750, width = 750)
+                        # )
+                ),
+                
+                br(),
+                br(),
+                
+                column(12,
+                       box( width = "700",
+                       span(htmlOutput("concensuslength"), style = "font-size: 30px"),    #2nd
+                       box(width = "700", withSpinner(DT::dataTableOutput("metabolomics_meta_LASSO")))  #3rd
+                       )
+                ),
+                
+                # column(12, align="center",
+                #        box(width = "700",
+                #        withSpinner(plotOutput("piChart", height = 750, width = 750))#,
+                #        )
+                #        # uiOutput("mlFilterControls")
+                # ),
+                
+                column(2,offset = 10,
+                       actionBttn("Click15", label = "Machine Learning",style="minimal", color = "success", size="lg")))), #included button in fluid page
+      tabItem(tabName = "ML",
+              fluidPage(
+                verticalLayout(
+               # column(12,
+               #        # tags$h4("Fold change (limma_dataframe)"),
+               #        # tags$h5("Note: This will take a while."),
+               # ),
+                  
+               
+               column(12,  align="center",
+                      # uiOutput("mlFilterControls"),
+                      # uiOutput("mlFilterControls2")),
+                      box(width = "700",
+                          
+                          
+                          uiOutput("datatouse"),
+                          
+                          splitLayout(
+                            sliderInput("ptraining", "p-Train/Test split ratio:",
+                                                  min = 0, max = 1,
+                                                  value = 1, step=0.01),
+                            # numericInput("ptraining", "Train/Test split ratio:", 100, min = 0, max = 100),
+                            uiOutput("mlFilterControls1")
+                          ),
+                          uiOutput("mlFilterControls")
+                          # actionBttn("ClickML", label = "Submit", style="pill", color = "success", size="sm")
+                      ),
+                     
+                      br(),
+                      column(12, tags$h3("")),
+                      uiOutput("MLTnTUI")
+                      # selectInput("region", "PCA PLOT:", 
+                      #               choices=colnames(samples_meta)),
+                      # ),
+                      # box(width = "700", withSpinner(DT::dataTableOutput("lasso_metabolites_data")))
+               )
+                 
+                 # ,
+                 # tabPanel("Best Model",
+                 #          box(withSpinner(plotOutput("CL"))),
+                 #          downloadButton("DownloadCLBest"))
+               #,
+               
+               # column(12, align = "center",
+               #        withSpinner(plotOutput("MLPLOTS1", height = 500, width = 600))
+               # ),
+               # br(),
+               # column(12, tags$h3("")),
+               # column(12, align = "center",
+               #        splitLayout(plotOutput("MLPLOTS2"),#, height = 300, width = 400),
+               #                    #column(12, align = "center",
+               #                    plotOutput("MLPLOTS3"))),#, height = 300, width = 400),
+               #        # column(12, align = "center",
+               #        # splitLayout(plotOutput("MLPLOTS4"),#, height = 500, width = 700))),
+               #        #             #column(12, align = "center",
+               #        #             plotOutput("MLPLOTS5"))),#, height = 500, width = 700)),
+               #        #HE SAID NO NEED FOR TESTING 3 and 4
+               #        
+               #        
+               # column(12, offset=3, align = "center",
+               #        box(title = "Variable Importance", withSpinner(plotOutput("MLPLOTS6", width = 700)))),
+               # 
+               # # column(12, align = "center",
+               # #        withSpinner(tableOutput("MLTable"))),
+               # 
+               # column(12, offset=3, align = "center",
+               #        box(title = "Variable Importance Consolidated", withSpinner(plotOutput("MLPLOTS7", width = 700)))) #,
+               # 
+               # # column(2,offset = 10,
+               # #        actionBttn("Click16", label = "Next", style="minimal", color = "success", size="lg"))
+               # 
+               )))#,
+      
+      
+      # tabItem(tabName = "CA",
+      #         fluidPage(
+      #           column(12,
+      #                  tags$h4("Fold change (limma_dataframe)"),
+      #                  tags$h5("Note: This will take a while."),
+      #           ),
+      #           
+      #           
+      #           
+      #           column(2,offset = 10,
+      #                  actionBttn("Click17", label = "Next", style="minimal", color = "success", size="lg")))),
+      # tabItem(tabName = "CHM",
+      #         fluidPage(
+      #           column(12,
+      #                  tags$h4("Fold change (limma_dataframe)"),
+      #                  tags$h5("Note: This will take a while."),
+      #           ),
+      #           
+      #           column(2,offset = 10,
+      #                  actionBttn("Click18", label = "Next", style="minimal", color = "success", size="lg")))),
+      # tabItem(tabName = "END",
+      #         fluidPage(
+      #           column(12,
+      #                  tags$h4("Fold change (limma_dataframe)"),
+      #                  tags$h5("Note: This will take a while."),
+      #           ),
+      #          
+      #           column(2,offset = 10,
+      #                  actionBttn("Click19", label = "Next", style="minimal", color = "success", size="lg"))))
+      
+    )
+  )
+)
+```
 
 
 
-# metabolomics_meta= read.csv("metabolomics_meta_R21_SOV.csv")   
+<!-- Make a block to load data -->
+```{r load_data, echo=FALSE}
+# load data
+```
+
+```{r preprocessing, echo=FALSE}
+# print(out1)
+# print(out2)
+# print(out3)
+# print(out4)
+# print(out5)
+# print(out6)
+```
+
+```{r graphs, echo=FALSE}
+# # # par(mfrow=c(2,2)) 
+#   print(out7)
+# #   # mtext("Before Normalization", 3, 1)
+#   print(out8)
+# #   # mtext("After Normalization", 3, 1)
+#   print(out9)
+# #   # mtext("Before Normalization", 3, 1)
+#   print(out10)
+# #   # mtext("After Normalization", 3, 1)
+
+# #save in an object and then print inside r markdown
+
+# # par(mfrow=c(2,2)) 
+# #    plot(density(apply(new.mat2, 2, mean, na.rm = TRUE)), 
+# #         col = "darkblue", las = 2, lwd = 2, main = "", xlab = "", 
+# #         ylab = "")
+    
+# #     mtext("Before Normalization", 3, 1)
+# #     plot(density(apply(norm.data, 2, mean, na.rm = TRUE)), 
+# #         col = "darkblue", las = 2, lwd = 2, main = "", xlab = "", 
+# #         ylab = "")
+# #    mtext("After Normalization", 3, 1)
+
+# #     rangex.pre <- range(new.mat2[, 1:20], na.rm = T)
+# #     rangex.norm <- range(norm.data[, 1:20], na.rm = T)
+    
+# #    boxplot(new.mat2[, 1:20], names = colnames(new.mat2[, 1:20]), 
+# #         ylim = rangex.pre, las = 2, col = "lightgreen", horizontal = T)
+# #    mtext("Before Normalization", 3, 1)
+
+# #   boxplot(norm.data[, 1:20], names = colnames(norm.data[, 1:20]), 
+# #         ylim = rangex.norm, las = 2, col = "lightgreen", horizontal = T)
+# #    mtext("After Normalization", 3, 1)
+```
+
+```{r graphs2, echo=FALSE}
+# # # par(mfrow=c(1,2))
+#   print(out11)
+# #   # mtext("Samples Before Normalization", 3, 1)
+#   print(out12)
+# #   # mtext("Samples After Normalization", 3, 1)
+# # par(mfrow=c(1,2)) 
+# # boxplot(new.mat2[1:20,1:20], names = rownames(new.mat2[1:20,1:20]), 
+# #         ylim = rangex.pre, las = 2, col = "lightgreen", horizontal = T)
+# #    mtext("Samples Before Normalization", 3, 1)
+
+# #   boxplot(norm.data[1:20,1:20 ], names = rownames(norm.data[1:20,1:20 ]), 
+# #         ylim = rangex.norm, las = 2, col = "lightgreen", horizontal = T)
+# #    mtext("Samples After Normalization", 3, 1)
+
+#   #might have to just pass parameters if not global variables here
+```
+
+
+
+
+
+
+
+
+
+<!--  -->
+
+
+<!-- # metabolomics_meta= read.csv("metabolomics_meta_R21_SOV.csv")   
 # samples_meta= read.csv("samples_meta_R21_SOV.csv",na.strings=c("NA","NaN", ""))       # samples unique ids is the sample id   
 # metabolomics_data= read.csv("metabolomics_data_R21_SOV.csv",check.names=F,row.names=1)  # metabolomics id is the comp id
 # dim(metabolomics_data)
@@ -106,29 +866,4 @@ print(out1)
 # print("********************Metaboloites annotation")
 # head(metabolomics_meta)
 # print("********************Samples annotation")
-# head(samples_meta)
-
-# options(echo=FALSE) #do I need this?
-args <- commandArgs(trailingOnly = TRUE)
-print(args)
-
-#do the file building here, to html
-metabolomics_meta= args[1] # hve to open the file here, otherwise it will not work
-samples_meta= args[2]
-metabolomics_data = args[3]
-
-int.mat <- metabolomics_data
-rowNms <- rownames(int.mat)
-colNms <- colnames(int.mat)
-naNms <- sum(is.na(int.mat))
-num.mat <- suppressWarnings(apply(int.mat, 2, as.numeric))
-if (sum(is.na(num.mat)) > naNms) {
-    num.mat <- apply(int.mat, 2, function(x) as.numeric(gsub(",", "", x)))
-    if (sum(is.na(num.mat)) > naNms) {
-        print("Non-numeric values were found and replaced by NA.")
-    }
-    else {
-        print("All data values are numeric.")
-    }
-} 
- -->
+# head(samples_meta) -->
